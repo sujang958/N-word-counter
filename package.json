@@ -6,7 +6,8 @@
   "scripts": {
     "register": "ts-node src/register.ts",
     "build": "tsc",
-    "dev": "ts-node src/app.ts"
+    "dev": "ts-node src/app.ts",
+    "start": "yarn build && node out/app.js"
   },
   "devDependencies": {
     "@types/dotenv": "^8.2.0",
