@@ -1,8 +1,8 @@
 import { Client, Collection, Events } from "discord.js"
 import { config } from "dotenv"
-import { getCommands } from "./register"
 import { CommandFile } from "./types"
 import { getOrCreate } from "./utils/db"
+import { getCommands } from "./utils/commands"
 
 config()
 

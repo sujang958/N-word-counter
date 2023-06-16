@@ -16,10 +16,11 @@ const StatsCommand: CommandFile = {
         .setName("user")
         .setDescription("See other's N-word stats")
         .setRequired(false)
-    ).toJSON(),
+    )
+    .toJSON(),
   async execute(interaction: CommandInteraction) {
     const targetUser =
-      interaction.options.get("user", false) ?? interaction.member
+      interaction.options.get("user", false)?.member ?? interaction.member
 
     if (!(targetUser instanceof GuildMember))
       return interaction.reply("Can't choose whose stats to show")
@@ -30,12 +31,12 @@ const StatsCommand: CommandFile = {
     if (!userData) return interaction.reply("Can't measure you!")
 
     const embed = new EmbedBuilder()
-      .setColor(0x1111ee)
-      .setTitle(`${interaction.member?.user.username}'s N-Word Stats`)
+      .setColor(0x2a1f1c)
+      .setTitle(`${targetUser.displayName}'s N-Word Stats`)
       .setDescription(
-        `${interaction.member?.user.username} said the N word ${
+        `<@!${targetUser.id}> said the N word \`${Number(
           userData.KRN + userData.N
-        } times`
+        ).toLocaleString()}\` times`
       )
       .setFooter({
         text: `Recorded since ${new Date(userData.createdAt).toDateString()}`,
