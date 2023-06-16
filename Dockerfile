@@ -2,9 +2,8 @@ FROM node:hydrogen-alpine3.18
 
 WORKDIR /usr/src/app
 
-COPY out ./
+COPY src ./
 COPY package.json ./
-
 COPY account.json .env ./
 
 RUN npm install
