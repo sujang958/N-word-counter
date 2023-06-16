@@ -54,8 +54,6 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
 client.login(process.env.BOT_TOKEN)
 
-// https://discord.com/api/oauth2/authorize?client_id=1118903489423228998&permissions=67584&scope=bot
-
 process.on("uncaughtException", (error) => {
   console.log("Error", error)
 })
