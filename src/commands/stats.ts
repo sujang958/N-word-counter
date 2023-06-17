@@ -1,9 +1,4 @@
-import {
-  CommandInteraction,
-  EmbedBuilder,
-  GuildMember,
-  SlashCommandBuilder,
-} from "discord.js"
+import { EmbedBuilder, GuildMember, SlashCommandBuilder } from "discord.js"
 import { CommandFile } from "../types"
 import { getOrCreate } from "../utils/db"
 
@@ -18,7 +13,7 @@ const StatsCommand: CommandFile = {
         .setRequired(false)
     )
     .toJSON(),
-  async execute(interaction: CommandInteraction) {
+  async execute(interaction, _) {
     const targetUser =
       interaction.options.get("user", false)?.member ?? interaction.member
 

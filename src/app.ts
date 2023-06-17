@@ -34,7 +34,7 @@ client.on(Events.MessageCreate, async (message) => {
   const NCounts = (
     content.match(/nigger|nigga|n1gga|n1gger|n1gg3r|nigg3r|nigg@|n1gg@/gi) || []
   ).length
-  const KRNCounts = (content.match(/내가|니가|네가|니거|닉아|닉가/gi) || [])
+  const KRNCounts = (content.match(/니가|니거|닉아|닉가/gi) || [])
     .length
 
   const doc = (await userRef.get()).data()
@@ -50,7 +50,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
   if (!command) return
 
-  command.execute(interaction)
+  command.execute(interaction, client)
 })
 
 client.login(process.env.BOT_TOKEN)
