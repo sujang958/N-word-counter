@@ -1,8 +1,10 @@
 import { Client, Collection, Events } from "discord.js"
 import { config } from "dotenv"
 import { CommandFile } from "./types"
-import { getOrCreate } from "./utils/db"
+// import { getOrCreate } from "./utils/db"
 import { getCommands } from "./utils/commands"
+import { connect } from "./db"
+import onMessageCreate from "./events/MessageCreate"
 
 config()
 
@@ -21,39 +23,27 @@ client.on("ready", async (preparedClient) => {
   console.log("Logged in as", preparedClient.user.tag)
 })
 
-client.on(Events.MessageCreate, async (message) => {
-  const content = message.content
-    .toLowerCase()
-    .trim()
-    .replace(/\u200b/gi, "")
+const main = async () => {
+  const db = await connect(process.env.DATABASE_URL)
 
-  if (!message.member?.id) return
+  client.on(Events.MessageCreate, async (message) => {
+    onMessageCreate(message, db)
+  })
 
-  const userRef = await getOrCreate(message.member.id)
+  client.on(Events.InteractionCreate, async (interaction) => {
+    if (!interaction.isCommand()) return
 
-  const NCounts = (
-    content.match(/nigger|nigga|n1gga|n1gger|n1gg3r|nigg3r|nigg@|n1gg@/gi) || []
-  ).length
-  const KRNCounts = (content.match(/내가|니가|네가|니거|닉아|닉가/gi) || [])
-    .length
+    const command = comamndCollection.get(interaction.commandName)
 
-  const doc = (await userRef.get()).data()
-  if (!doc) return
+    if (!command) return
 
-  userRef.update({ KRN: doc.KRN + KRNCounts, N: doc.N + NCounts })
-})
+    command.execute(interaction, db)
+  })
 
-client.on(Events.InteractionCreate, async (interaction) => {
-  if (!interaction.isCommand()) return
+  client.login(process.env.BOT_TOKEN)
+}
 
-  const command = comamndCollection.get(interaction.commandName)
-
-  if (!command) return
-
-  command.execute(interaction)
-})
-
-client.login(process.env.BOT_TOKEN)
+main()
 
 process.on("uncaughtException", (error) => {
   console.log("Error", error)

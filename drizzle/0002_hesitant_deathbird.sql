@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX `discordIdIdx` ON `users` (`discordId`);

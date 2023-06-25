@@ -1,0 +1,27 @@
+{
+  "version": "5",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1687616709351,
+      "tag": "0000_calm_magma",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1687617250820,
+      "tag": "0001_thin_blizzard",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1687674114527,
+      "tag": "0002_hesitant_deathbird",
+      "breakpoints": true
+    }
+  ]
+}
