@@ -36,16 +36,9 @@ export const selectOrInsert = async (
 
   if (fetchedUsers.length > 0) return fetchedUsers[0]
 
-export const userDocType = z.object({
-  KRN: z.number(),
-  N: z.number(),
-  createdAt: z.number(),
-  id: z.string(),
-})
-
-export type userDoc = z.infer<typeof userDocType>
-
-  await db.insert(users).values({ discordId, createdAt: new Date() })
+  await db
+    .insert(users)
+    .values({ discordId, createdAt: new Date(), counts: 0n })
 
   const [createdUser] = await db
     .select()

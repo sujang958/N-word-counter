@@ -25,9 +25,7 @@ export const users = mysqlTable(
   {
     id: serial("id").primaryKey().notNull(),
     discordId: varchar("discordId", { length: 512 }).notNull(),
-    counts: bigintUnsiged("counts")
-      .default(0 as unknown as bigint)
-      .notNull(),
+    counts: bigintUnsiged("counts").notNull(),
     createdAt: date("createdAt").notNull(),
   },
   (table) => ({ discordIdIdx: uniqueIndex("discordIdIdx").on(table.discordId) })

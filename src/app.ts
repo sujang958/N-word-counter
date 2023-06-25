@@ -29,27 +29,6 @@ const main = async () => {
   client.on(Events.MessageCreate, async (message) => {
     onMessageCreate(message, db)
   })
-client.on(Events.MessageCreate, async (message) => {
-  const content = message.content
-    .toLowerCase()
-    .trim()
-    .replace(/\u200b/gi, "")
-
-  if (!message.member?.id) return
-
-  const userRef = await getOrCreate(message.member.id)
-
-  const NCounts = (
-    content.match(/nigger|nigga|n1gga|n1gger|n1gg3r|nigg3r|nigg@|n1gg@/gi) || []
-  ).length
-  const KRNCounts = (content.match(/니가|니거|닉아|닉가/gi) || [])
-    .length
-
-  const doc = (await userRef.get()).data()
-  if (!doc) return
-
-  userRef.update({ KRN: doc.KRN + KRNCounts, N: doc.N + NCounts })
-})
 
   client.on(Events.InteractionCreate, async (interaction) => {
     if (!interaction.isCommand()) return
@@ -58,8 +37,8 @@ client.on(Events.MessageCreate, async (message) => {
 
     if (!command) return
 
-  command.execute(interaction, client)
-})
+    command.execute(interaction, client, db)
+  })
 
   client.login(process.env.BOT_TOKEN)
 }
