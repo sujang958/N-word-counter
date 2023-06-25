@@ -1,4 +1,5 @@
 import {
+  Client,
   CommandInteraction,
   RESTPostAPIChatInputApplicationCommandsJSONBody,
   SlashCommandBuilder,
@@ -6,9 +7,6 @@ import {
 import { PlanetScaleDatabase } from "drizzle-orm/planetscale-serverless"
 
 export type CommandFile = {
-  execute: (
-    interaction: CommandInteraction,
-    db: PlanetScaleDatabase<Record<string, never>>
-  ) => any
+  execute: (interaction: CommandInteraction, client: Client<true>) => any
   data: RESTPostAPIChatInputApplicationCommandsJSONBody
 }

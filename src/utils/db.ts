@@ -1,4 +1,5 @@
 // import admin from "firebase-admin"
+import { z } from "zod"
 
 import { PlanetScaleDatabase } from "drizzle-orm/planetscale-serverless"
 import { User, users } from "../db/schema"
@@ -34,6 +35,15 @@ export const selectOrInsert = async (
     .where(eq(users.discordId, discordId))
 
   if (fetchedUsers.length > 0) return fetchedUsers[0]
+
+export const userDocType = z.object({
+  KRN: z.number(),
+  N: z.number(),
+  createdAt: z.number(),
+  id: z.string(),
+})
+
+export type userDoc = z.infer<typeof userDocType>
 
   await db.insert(users).values({ discordId, createdAt: new Date() })
 
