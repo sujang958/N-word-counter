@@ -1,8 +1,5 @@
-// import admin from "firebase-admin"
-import { z } from "zod"
-
 import { PlanetScaleDatabase } from "drizzle-orm/planetscale-serverless"
-import { User, users } from "../db/schema"
+import { users } from "../db/schema"
 import { eq } from "drizzle-orm"
 import admin from "firebase-admin"
 
