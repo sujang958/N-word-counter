@@ -5,14 +5,15 @@ import { CommandFile } from "./types"
 import { getCommands } from "./utils/commands"
 import { connect } from "./db"
 import onMessageCreate from "./events/MessageCreate"
+import onInteractionCreate from "./events/InteractionCreate"
 
 config()
 
 const commands = getCommands()
-const comamndCollection = new Collection<string, CommandFile>()
+const commandCollection = new Collection<string, CommandFile>()
 
 for (const command of commands) {
-  comamndCollection.set(command.data.name, command)
+  commandCollection.set(command.data.name, command)
 }
 
 const client = new Client({
@@ -31,13 +32,7 @@ const main = async () => {
   })
 
   client.on(Events.InteractionCreate, async (interaction) => {
-    if (!interaction.isCommand()) return
-
-    const command = comamndCollection.get(interaction.commandName)
-
-    if (!command) return
-
-    command.execute(interaction, client, db)
+    onInteractionCreate(interaction, commandCollection, client, db)
   })
 
   client.login(process.env.BOT_TOKEN)
