@@ -1,5 +1,7 @@
+import { PlanetScaleDatabase } from "drizzle-orm/planetscale-serverless"
+import { users } from "../db/schema"
+import { eq } from "drizzle-orm"
 import admin from "firebase-admin"
-import { z } from "zod"
 
 admin.initializeApp({
   credential: admin.credential.cert(require("../../account.json")),
@@ -7,25 +9,25 @@ admin.initializeApp({
 
 export const userCollection = admin.firestore().collection("users")
 
-export const userDocType = z.object({
-  KRN: z.number(),
-  N: z.number(),
-  createdAt: z.number(),
-  id: z.string(),
-})
+export const selectOrInsert = async (
+  db: PlanetScaleDatabase<Record<string, never>>,
+  discordId: string
+) => {
+  const fetchedUsers = await db
+    .select()
+    .from(users)
+    .where(eq(users.discordId, discordId))
 
-export type userDoc = z.infer<typeof userDocType>
+  if (fetchedUsers.length > 0) return fetchedUsers[0]
 
-export const getOrCreate = async (id: string) => {
-  const userDocRef = userCollection.doc(id)
-  const userDoc = await userDocRef.get()
-  if (userDoc.exists) return userDocRef
+  await db
+    .insert(users)
+    .values({ discordId, createdAt: new Date(), counts: 0n })
 
-  await userDocRef.create({
-    KRN: 0,
-    N: 0,
-    createdAt: Date.now(),
-  })
+  const [createdUser] = await db
+    .select()
+    .from(users)
+    .where(eq(users.discordId, discordId))
 
-  return userDocRef
+  return createdUser
 }

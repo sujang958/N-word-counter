@@ -1,0 +1,1 @@
+ALTER TABLE `users` MODIFY COLUMN `counts` bigint unsigned NOT NULL;
