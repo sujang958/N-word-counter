@@ -16,10 +16,9 @@ const RankCommand: CommandFile = {
 
     .toJSON(),
   async execute(interaction, client, db) {
-    let limitOption = Number(
+    const limitOption = Number(
       interaction.options.get("limit", false)?.value?.toString()
     )
-
     const limit = isNaN(limitOption) ? 5 : limitOption
 
     const fetchedUsers = await db
