@@ -7,13 +7,25 @@ const RankCommand: CommandFile = {
   data: new SlashCommandBuilder()
     .setName("leaderboard")
     .setDescription("See who's the greatest racist")
+    .addIntegerOption((option) =>
+      option
+        .setName("limit")
+        .setDescription("The number of people on the list (max: 10)")
+        .setRequired(false)
+    )
+
     .toJSON(),
   async execute(interaction, client, db) {
+    const limitOption = Number(
+      interaction.options.get("limit", false)?.value?.toString()
+    )
+    const limit = isNaN(limitOption) ? 5 : limitOption
+
     const fetchedUsers = await db
       .select()
       .from(users)
       .orderBy(desc(users.counts))
-      .limit(10)
+      .limit(limit)
 
     const embed = new EmbedBuilder()
       .setTitle("Hall of Racism")
