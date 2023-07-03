@@ -28,7 +28,7 @@ const StatsCommand: CommandFile = {
       .setColor(0x2a1f1c)
       .setTitle(`${targetUser.displayName}'s N-Word Stats`)
       .setDescription(
-        `<@!${targetUser.id}> said the N word \`${Number(
+        `<@!${targetUser.id}> has said the N word \`${Number(
           user.counts
         ).toLocaleString()}\` times`
       )
